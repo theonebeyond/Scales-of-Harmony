@@ -1,0 +1,16 @@
+# Ignore Unity-specific folders and files
+[Tt]emp/
+[Ll]ibrary/
+[Oo]bj/
+[Bb]uilds/
+[Ll]ogs/
+[Uu]serSettings/
+
+# Ignore system-specific files
+Thumbs.db
+.DS_Store
+
+# Ignore Visual Studio files (if using Visual Studio)
+*.sln
+*.csproj
+*.suo
