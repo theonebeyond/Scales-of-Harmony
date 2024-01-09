@@ -6,23 +6,25 @@ using System;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
-
+    private float timer = 0f;
     public enum GameState
     {
         MainMenu,
         InGame,
         Paused,
         TraitSelection,
-        BattlePhase,
+        BossPhase,
+        SavePhase,
         GameOver
     }
 
     public GameState currentState;
-    public TraitManager traitManager;
-    public BattleManager battleManager; // Reference to the BattleManager
+    //public TraitManager traitManager;
+    public EnemySpawnManager enemySpawnManager; // Reference to the EnemySpawnManager
     public UIManager uiManager;
     public int playerLevel = 1;
-    public float gameTimer = 60f; // 1 minute for the food eating game
+
+
 
     void Awake()
     {
@@ -46,11 +48,11 @@ public class GameManager : MonoBehaviour
     {
         if (currentState == GameState.InGame)
         {
-            gameTimer -= Time.deltaTime;
-            uiManager.UpdateTimer(gameTimer);
-            if (gameTimer <= 0f)
+            timer += Time.deltaTime;
+            if (timer >= enemySpawnManager.spawnInterval)
             {
-                ChangeState(GameState.BattlePhase);
+                enemySpawnManager.SpawnEnemy();
+                timer = 0f;
             }
         }
     }
@@ -69,21 +71,26 @@ public class GameManager : MonoBehaviour
                 // Handle main menu logic
                 break;
             case GameState.InGame:
+                /*
                 uiManager.SwitchMainDisplay(true);
                 uiManager.SwitchOfTraitDisplay(true);
                 PauseMainSceneGameplay(true);
                 ResumeGame();
+                */
                 break;
             case GameState.Paused:
-                PauseGame();
+                //PauseGame();
                 break;
             case GameState.TraitSelection:
+                /*
                 uiManager.SwitchOfTraitDisplay(false);
                 traitManager.OfferTraitChoices();
                 PauseGame();
+                */
                 break;
-            case GameState.BattlePhase:
+            case GameState.BossPhase:
                 // Hand over control to BattleManager
+                /*
                 FoodSpawner foodSpawner = FindAnyObjectByType<FoodSpawner>();
                 foodSpawner.CancelInvoke();
                 uiManager.SwitchMainDisplay(false);
@@ -95,14 +102,16 @@ public class GameManager : MonoBehaviour
                 // Use the sceneLoaded event to find the BattleManager when the "BattleScene" has loaded
                 SceneManager.sceneLoaded += OnBattleSceneLoaded;
                 Debug.Log("+= stuff finished");
+                */
                 break;
             case GameState.GameOver:
                 // Handle game over logic
-                DisplayGameOverScreen();
+                //DisplayGameOverScreen();
                 break;
         }
     }
-
+}
+    /*
     private void OnBattleSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         if (scene.name == "BattleScene")
@@ -217,3 +226,4 @@ public class GameManager : MonoBehaviour
 
     // Other methods as needed...
 }
+    */
