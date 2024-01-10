@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 291a2ae26c48aa04aa9261e06fa0c645, type: 3}
+  m_Name: Dragon Nova
+  m_EditorClassIdentifier: 
+  blessingName: Dragon Nova
+  blessingSprite: {fileID: 21300000, guid: 7efd8d5894d7b904d8e3ee266c922f28, type: 3}
+  description: Nova~~
+  blessingNo: 2
+  DragonNo: 0
+  attackInterval: 3
+  projectileData: {fileID: 0}
+  effectValue: 2
+  pierceCount: 1

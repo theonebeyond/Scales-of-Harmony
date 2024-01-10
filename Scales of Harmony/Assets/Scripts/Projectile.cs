@@ -4,13 +4,19 @@ using static UnityEngine.RuleTile.TilingRuleOutput;
 public class Projectile : MonoBehaviour
 {
     public ProjectileData projectileData;
+    private Vector2 direction;
+    private float travelDistance;
 
-    private Vector2 targetPosition;
+    private Vector2 startPosition;
 
     public void Initialize(Vector2 target, ProjectileData data)
     {
-        targetPosition = target;
+
+        startPosition = transform.position;
         projectileData = data;
+        direction = (target - (Vector2)transform.position).normalized; // Direction towards the target
+        travelDistance = projectileData.range; // Assuming you add a 'range' field to ProjectileData
+
     }
 
     void Update()
@@ -20,23 +26,21 @@ public class Projectile : MonoBehaviour
 
     void MoveTowardsTarget()
     {
-        if (Vector2.Distance(transform.position, targetPosition) > 0.1f)
+        if (Vector2.Distance(startPosition, transform.position) < travelDistance)
         {
-            Vector2 direction = (targetPosition - (Vector2)transform.position).normalized;
             transform.position += (Vector3)direction * projectileData.speed * Time.deltaTime;
         }
         else
         {
-            Destroy(gameObject);
+            Destroy(gameObject); // Destroy the projectile after reaching the travel distance
         }
     }
 
-    void OnCollisionEnter2D(Collision2D collision)
+
+    void OnTriggerEnter2D(Collider2D collider)
     {
-        if (collision.gameObject.CompareTag("Player"))
-        {
-            collision.gameObject.GetComponent<PlayerStatManager>().TakeDamage(projectileData.damage);
-        }
-        Destroy(gameObject);
+        if (projectileData.TruePlayerFalseEnemy && (collider.gameObject.CompareTag("Enemy"))) Destroy(gameObject); 
+        if (!(projectileData.TruePlayerFalseEnemy) && (collider.gameObject.CompareTag("Dragon"))) Destroy(gameObject);
     }
 }
+        

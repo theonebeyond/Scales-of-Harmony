@@ -2,11 +2,13 @@ using UnityEngine;
 using System.Collections;
 using UnityEngine.SceneManagement;
 using System;
-
+using static GameManager;
+using System.Collections.Generic;
 public class GameManager : MonoBehaviour
 {
+    
     public static GameManager Instance { get; private set; }
-    private float timer = 0f;
+    private float SpawnTimer = 0f;
     public enum GameState
     {
         MainMenu,
@@ -17,11 +19,18 @@ public class GameManager : MonoBehaviour
         SavePhase,
         GameOver
     }
+    // Parameters that are used to determine the friendly dragon series:
+    public DragonData[] AllDragonList;
+    private List<DragonData> selectedDragons = new List<DragonData>();
+    private DragonData currentDragon;
+    private int currentDragonIndex = 0;
 
     public GameState currentState;
-    //public TraitManager traitManager;
+
+    //Managers to be tracked;
     public EnemySpawnManager enemySpawnManager; // Reference to the EnemySpawnManager
-    public UIManager uiManager;
+    public UIController uiManager;
+    public PowerManager powerManager;
     public int playerLevel = 1;
 
 
@@ -41,19 +50,25 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        
+        SelectRandomDragons();
+        // Start the game with the first dragon
+
         ChangeState(GameState.InGame);
+        EncounterDragon();
     }
 
     void Update()
     {
         if (currentState == GameState.InGame)
         {
-            timer += Time.deltaTime;
-            if (timer >= enemySpawnManager.spawnInterval)
+            SpawnTimer += Time.deltaTime;
+            if (SpawnTimer >= enemySpawnManager.spawnInterval)
             {
                 enemySpawnManager.SpawnEnemy();
-                timer = 0f;
+                SpawnTimer = 0f;
             }
+
         }
     }
 
@@ -68,9 +83,16 @@ public class GameManager : MonoBehaviour
         switch (newState)
         {
             case GameState.MainMenu:
+                Time.timeScale = 0;
+                uiManager.SwitchMenu(true);
+                uiManager.SwitchInGameUI(false);
                 // Handle main menu logic
                 break;
             case GameState.InGame:
+                Time.timeScale = 1;
+                uiManager.SwitchInGameUI(true);
+                uiManager.SwitchMenu(false);
+                uiManager.SwitchTraitSelectionUI(false, currentDragon);
                 /*
                 uiManager.SwitchMainDisplay(true);
                 uiManager.SwitchOfTraitDisplay(true);
@@ -82,6 +104,8 @@ public class GameManager : MonoBehaviour
                 //PauseGame();
                 break;
             case GameState.TraitSelection:
+                Time.timeScale = 0;
+                uiManager.SwitchTraitSelectionUI(true, currentDragon);
                 /*
                 uiManager.SwitchOfTraitDisplay(false);
                 traitManager.OfferTraitChoices();
@@ -110,120 +134,62 @@ public class GameManager : MonoBehaviour
                 break;
         }
     }
-}
-    /*
-    private void OnBattleSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        if (scene.name == "BattleScene")
-        {
-            // Unsubscribe from the event to avoid multiple calls
-            SceneManager.sceneLoaded -= OnBattleSceneLoaded;
 
-            // Find the BattleManager now that the scene has loaded
-            battleManager = FindAnyObjectByType<BattleManager>();
-
-            if (battleManager != null)
-            {
-                StartCoroutine(battleManager.BeginBattle());
-                Debug.Log("Found and initialized BattleManager.");
-            }
-            else
-            {
-                Debug.LogError("BattleManager not found in the 'BattleScene'.");
-            }
-        }
-    }
-    public void DestroyAllFood()
+    public void PauseGame()
     {
-        GameObject[] foodItems = GameObject.FindGameObjectsWithTag("Food");
-        foreach (GameObject food in foodItems)
-        {
-            Destroy(food);
-        }
-    }
-    public void PlayerLeveledUp()
-    {
-        ChangeState(GameState.TraitSelection);
-    }
-
-    private void PauseGame()
-    {
-        // Logic to pause the game (e.g., stop snake movement)
+        ChangeState(GameState.MainMenu);
         Time.timeScale = 0;
     }
 
-    private void ResumeGame()
+    public void ExitGame()
     {
-        // Logic to resume the game (e.g., resume snake movement)
-        Time.timeScale = 1;
-        // Reset the timer for the next round
-    }
-
-    public void StartBattlePhase()
-    {
-        SceneManager.LoadScene("BattleScene", LoadSceneMode.Additive);
-        StartCoroutine(SetupBattle());
+        Destroy(gameObject);
+        SceneManager.LoadScene("MainMenu");
     }
 
 
-    IEnumerator SetupBattle()
+    public void ResumeGame()
     {
-        yield return new WaitForSeconds(1); // Wait for the scene to load
-
-        // Initialize the battle here
-        // Find and set up player and enemy
-        // You can use GameObject.FindGameObjectWithTag or similar methods
+        ChangeState(GameState.InGame);
     }
 
-    public void EndBattlePhase()
+    public void RestartGame()
     {
-        SceneManager.UnloadSceneAsync("BattleScene");
-        // Any cleanup or state reset post-battle
+        Destroy(gameObject);
+        Scene currentScene = SceneManager.GetActiveScene();
+        SceneManager.LoadScene("MainScene");
     }
 
-    private void PauseMainSceneGameplay(Boolean onOFF)
+    void SelectRandomDragons()
     {
-        // Disable or pause main scene gameplay elements
-
-        // Example: Disable the snake controller script
-        var snakeController = FindObjectOfType<SnakeController>();
-        if (snakeController != null)
+        List<DragonData> dragonsPool = new List<DragonData>(AllDragonList);
+        for (int i = 0; i < 4; i++)
         {
-            snakeController.enabled = onOFF;
-        }
+            int randomIndex = UnityEngine.Random.Range(0, dragonsPool.Count);
+            selectedDragons.Add(dragonsPool[randomIndex]);
+            Debug.Log(dragonsPool[randomIndex].name);
+            dragonsPool.RemoveAt(randomIndex);
 
-        var FoodController = FindObjectOfType<FoodSpawner>();
-        if (FoodController != null)
-        {
-            FoodController.enabled = onOFF;
         }
-
-        var snake = GameObject.FindGameObjectWithTag("snake"); // Replace "Snake" with your snake's tag
-        if (snake != null)
-        {
-            snake.SetActive(onOFF);
-        }
-
-        var SnakeHead = GameObject.FindGameObjectWithTag("SnakeHead"); // Replace "Snake" with your snake's tag
-        if (SnakeHead != null)
-        {
-            SnakeHead.SetActive(onOFF);
-        }
-
-        var food = GameObject.FindGameObjectWithTag("Food"); // Replace "Snake" with your snake's tag
-        if (food != null)
-        {
-            food.SetActive(onOFF);
-        }
-        // Disable other gameplay elements, like enemy movement, timers, etc.
-        // You might also want to pause any animations or ongoing effects
-
     }
-    private void DisplayGameOverScreen()
+
+    void EncounterDragon()
     {
-        // Logic to display the game over screen with summary
+        if (currentDragonIndex < selectedDragons.Count)
+        {
+            currentDragon = selectedDragons[currentDragonIndex];
+            // Handle the encounter with currentDragon
+            // and assigning the first blessing from currentDragon.blessings
+            ChangeState(GameState.TraitSelection);
+
+            currentDragonIndex++;
+        }
     }
 
-    // Other methods as needed...
+    public DragonData GetCurrentDragon()
+    {
+        return currentDragon;
+
+    }
 }
-    */
+

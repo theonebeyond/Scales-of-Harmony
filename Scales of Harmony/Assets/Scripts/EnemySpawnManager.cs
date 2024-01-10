@@ -38,8 +38,15 @@ public class EnemySpawnManager : MonoBehaviour
 
     Vector2 GetBorderSpawnPosition()
     {
-        // Calculate a random position at the border of the screen
-        Vector2 spawnPoint = mainCamera.ViewportToWorldPoint(new Vector3(Random.value, Random.value, mainCamera.nearClipPlane));
+        // Find the main camera every time to avoid null reference after scene changes
+        Camera currentCamera = Camera.main;
+        if (currentCamera == null)
+        {
+            Debug.LogError("Main camera not found");
+            return Vector2.zero;
+        }
+
+        Vector2 spawnPoint = currentCamera.ViewportToWorldPoint(new Vector3(Random.value, Random.value, currentCamera.nearClipPlane));
         return new Vector2(spawnPoint.x, spawnPoint.y);
     }
 }

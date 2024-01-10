@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 291a2ae26c48aa04aa9261e06fa0c645, type: 3}
+  m_Name: Magic Ball
+  m_EditorClassIdentifier: 
+  blessingName: Magic Ball
+  blessingSprite: {fileID: 21300000, guid: 2f295a40d7d35e145aad6fbc803369ac, type: 3}
+  description: Ball of Magic!!
+  blessingNo: 0
+  DragonNo: 0
+  attackInterval: 1
+  projectileData: {fileID: 11400000, guid: 074627deca8e1aa43b93cf16a2fa3fb1, type: 2}
+  effectValue: 2
+  pierceCount: 1
