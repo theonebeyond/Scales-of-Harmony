@@ -16,5 +16,5 @@ MonoBehaviour:
   projectilePrefab: {fileID: 1707670863630999854, guid: 93f040fc0dc7a3d4f858a42f2c7fee4a, type: 3}
   TruePlayerFalseEnemy: 0
   speed: 1.5
-  damage: 1
+  damage: 2
   range: 5

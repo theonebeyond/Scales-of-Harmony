@@ -60,6 +60,8 @@ public class TraitSelectionPanel : MonoBehaviour
       // Extract the blessingNo and pass to powerManager to add trait into current trait list
         powerManager.AddBlessing(dragon.blessings[number].blessingNo);
         gameManager.ResumeGame();
+        TraitDisplay display = FindAnyObjectByType<TraitDisplay>();
+        display.pushImage(dragon.blessings[number]);
     }
     /*
     public void SelectTrait(int blessingIndex)

@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: Snake
   m_EditorClassIdentifier: 
   enemyName: Snake
-  health: 10
+  health: 5
   isProjectile: 1
   enemyPrefab: {fileID: 565604203163251107, guid: a017b5aff4cb9694abc2d7dd52cc2774, type: 3}
+  enemySprite: {fileID: 21300000, guid: b162be57eb2b2e94ba7cd2c9036e9581, type: 3}
   projectile: {fileID: 11400000, guid: 965163c7ed1c3c3458c7cd883c91010e, type: 2}
   fireRate: 1
   movingSpeed: 0.5

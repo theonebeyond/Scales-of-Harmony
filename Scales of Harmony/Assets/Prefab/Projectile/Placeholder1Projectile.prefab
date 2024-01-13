@@ -31,7 +31,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 581.366, y: 311.6737, z: 0}
-  m_LocalScale: {x: 0.390625, y: 0.390625, z: 1}
+  m_LocalScale: {x: 0.1, y: 0.1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -160,7 +160,7 @@ TrailRenderer:
   m_GameObject: {fileID: 4879669278655805163}
   m_Enabled: 1
   m_CastShadows: 2
-  m_ReceiveShadows: 1
+  m_ReceiveShadows: 0
   m_DynamicOccludee: 1
   m_StaticShadowCaster: 0
   m_MotionVectors: 0
@@ -192,11 +192,11 @@ TrailRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Time: 1
+  m_Time: 0.3
   m_PreviewTimeScale: 1
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 1
+    widthMultiplier: 0.27385473
     widthCurve:
       serializedVersion: 2
       m_Curve:
@@ -245,11 +245,11 @@ TrailRenderer:
     numCornerVertices: 0
     numCapVertices: 0
     alignment: 0
-    textureMode: 1
-    textureScale: {x: 0.5, y: 1}
+    textureMode: 2
+    textureScale: {x: 0.09, y: 0.84}
     shadowBias: 0.5
     generateLightingData: 0
-  m_MinVertexDistance: 1
+  m_MinVertexDistance: 0.2
   m_MaskInteraction: 0
   m_Autodestruct: 1
   m_Emitting: 1
@@ -266,4 +266,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad15c8737d1477e49a7fec83496ebddd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectileData: {fileID: 0}
+  projectileData: {fileID: 11400000, guid: 074627deca8e1aa43b93cf16a2fa3fb1, type: 2}
+  playerStatManager: {fileID: 0}

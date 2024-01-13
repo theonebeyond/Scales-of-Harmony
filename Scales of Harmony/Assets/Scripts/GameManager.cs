@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
         InGame,
         Paused,
         TraitSelection,
+        AttributeSelection,
         BossPhase,
         SavePhase,
         GameOver
@@ -31,10 +32,12 @@ public class GameManager : MonoBehaviour
     public EnemySpawnManager enemySpawnManager; // Reference to the EnemySpawnManager
     public UIController uiManager;
     public PowerManager powerManager;
+    public PlayerStatManager playerStatManager;
+    public DialogueManager dialogueManager;
     public int playerLevel = 1;
 
 
-
+    /*
     void Awake()
     {
         if (Instance == null)
@@ -47,19 +50,22 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
-
+    */
     void Start()
     {
-        
-        SelectRandomDragons();
-        // Start the game with the first dragon
-
-        ChangeState(GameState.InGame);
-        EncounterDragon();
+        Time.timeScale = 1;
+        GameStartUISetUp();
     }
 
     void Update()
     {
+        
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Debug.Log("Game paused by shortcut");
+            PauseGame();
+        }
+        
         if (currentState == GameState.InGame)
         {
             SpawnTimer += Time.deltaTime;
@@ -78,72 +84,89 @@ public class GameManager : MonoBehaviour
         HandleStateChange(newState);
     }
 
+    //
     private void HandleStateChange(GameState newState)
     {
         switch (newState)
         {
+            // [Main Menu] Set Up:
             case GameState.MainMenu:
+                //uiManager.SwitchTraitSelectionUI(false, currentDragon);
+                uiManager.DisplayGameOverScreen(false);
                 Time.timeScale = 0;
                 uiManager.SwitchMenu(true);
                 uiManager.SwitchInGameUI(false);
+                Debug.Log("Engered menu");
                 // Handle main menu logic
                 break;
+
+            // [In Game] Set Up:
             case GameState.InGame:
                 Time.timeScale = 1;
-                uiManager.SwitchInGameUI(true);
-                uiManager.SwitchMenu(false);
-                uiManager.SwitchTraitSelectionUI(false, currentDragon);
-                /*
-                uiManager.SwitchMainDisplay(true);
-                uiManager.SwitchOfTraitDisplay(true);
-                PauseMainSceneGameplay(true);
-                ResumeGame();
-                */
+                InGameUISetting();
+
                 break;
+
+            // [Paused] Set Up:
             case GameState.Paused:
                 //PauseGame();
                 break;
-            case GameState.TraitSelection:
-                Time.timeScale = 0;
-                uiManager.SwitchTraitSelectionUI(true, currentDragon);
-                /*
-                uiManager.SwitchOfTraitDisplay(false);
-                traitManager.OfferTraitChoices();
-                PauseGame();
-                */
-                break;
-            case GameState.BossPhase:
-                // Hand over control to BattleManager
-                /*
-                FoodSpawner foodSpawner = FindAnyObjectByType<FoodSpawner>();
-                foodSpawner.CancelInvoke();
-                uiManager.SwitchMainDisplay(false);
-                PauseMainSceneGameplay(false);
-                DestroyAllFood();
-                Debug.Log("everything done");
-                SceneManager.LoadScene("BattleScene");
 
-                // Use the sceneLoaded event to find the BattleManager when the "BattleScene" has loaded
-                SceneManager.sceneLoaded += OnBattleSceneLoaded;
-                Debug.Log("+= stuff finished");
-                */
+            // [Trait Selection] Set Up:
+            case GameState.TraitSelection:
+                ShowButton(false);
+                Time.timeScale = 0f;
+                uiManager.SwitchTraitSelectionUI(true, currentDragon);
+                Debug.Log("Trait select done");
                 break;
+
+
+            // [Attribute Selection] Set Up:            
+            case GameState.AttributeSelection:
+                Time.timeScale = 0f;
+                playerStatManager.Initialize_Attribute_Board();
+
+                break;
+
+            // [BOSS Phase] Set Up:
+            case GameState.BossPhase:
+                break;
+
+            // [Game Over] Set Up:
             case GameState.GameOver:
                 // Handle game over logic
-                //DisplayGameOverScreen();
+                Debug.Log("GameOver started");
+                uiManager.backgroundBase.SetActive(true);
+                uiManager.SwitchMenu(false);
+                uiManager.DisplayGameOverScreen(true);
+                uiManager.SwitchInGameUI(false);
                 break;
         }
     }
 
+    public void GameStartUISetUp() 
+    {
+        uiManager.backgroundBase.SetActive(false);
+        uiManager.DisplayGameOverScreen(false);
+        uiManager.SwitchDialogueBox(false);
+        uiManager.SwitchInGameUI(false);
+        uiManager.SwitchMenu(false);
+        uiManager.SwitchTraitSelectionUI(false, currentDragon);
+        uiManager.AttributeMenuSwitch(false);
+        uiManager.WelcomeTXTSwitch(true);
+        uiManager.printWelcome();
+        uiManager.InGameAttributePointUpdate(playerStatManager.AttributePoint);
+        Debug.Log("Game Initiated");
+    }
     public void PauseGame()
     {
         ChangeState(GameState.MainMenu);
         Time.timeScale = 0;
     }
 
+
     public void ExitGame()
     {
-        Destroy(gameObject);
         SceneManager.LoadScene("MainMenu");
     }
 
@@ -155,9 +178,34 @@ public class GameManager : MonoBehaviour
 
     public void RestartGame()
     {
-        Destroy(gameObject);
         Scene currentScene = SceneManager.GetActiveScene();
         SceneManager.LoadScene("MainScene");
+    }
+
+    public void AttributeAdd()
+    {
+        ChangeState(GameState.AttributeSelection);
+    }
+
+    public void GameOver()
+    {
+        ChangeState(GameState.GameOver);
+        
+    }
+
+    public void ShowButton(Boolean OnOff)
+    {
+        uiManager.SwitchSettingButton(OnOff);
+
+    }
+
+    private void InGameUISetting()
+    {
+        uiManager.SwitchInGameUI(true);
+        uiManager.SwitchMenu(false);
+        uiManager.AttributeMenuSwitch(false);
+        uiManager.SwitchTraitSelectionUI(false, currentDragon);
+        ShowButton(true);
     }
 
     void SelectRandomDragons()
@@ -190,6 +238,23 @@ public class GameManager : MonoBehaviour
     {
         return currentDragon;
 
+    }
+
+    public void WelcomeEnd() {
+        uiManager.WelcomeTXTSwitch(false);
+        Debug.Log("About to display welcome");
+        uiManager.DialogueBoxSwitch(true);
+        dialogueManager.DisPlayWelcomeDialogue();
+
+
+    }
+
+    public void WelcomeDialogueEnd()
+    {
+        // Start the game with the first dragon
+        uiManager.DialogueBoxSwitch(false);
+        SelectRandomDragons();
+        EncounterDragon();
     }
 }
 

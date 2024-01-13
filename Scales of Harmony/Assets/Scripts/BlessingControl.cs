@@ -5,8 +5,9 @@ public class BlessingControl : MonoBehaviour
 {
     public Blessing assignedBlessing;
     public Blessing blessing;
-    public GameManager gameManager;
-    public PowerManager powerManager;
+    private GameManager gameManager;
+    private PowerManager powerManager;
+    private PlayerStatManager playerStatManager;
     public List<Blessing> AllBlessings;
     public GameObject dragon;
     private float timer = 0f;
@@ -14,6 +15,7 @@ public class BlessingControl : MonoBehaviour
     public void Initialize(Blessing blessing)
     {
         assignedBlessing = blessing;
+        playerStatManager = FindAnyObjectByType<PlayerStatManager>();
         gameManager = FindAnyObjectByType<GameManager>();
         powerManager = FindAnyObjectByType<PowerManager>();
         dragon = powerManager.dragon;
@@ -24,11 +26,13 @@ public class BlessingControl : MonoBehaviour
     void Update()
     {
         if (assignedBlessing == null) return;
-
+        float ASFactor = playerStatManager.AttackSpeed[0];
+        float modifiedInterval = assignedBlessing.attackInterval * (1 / (1 + (ASFactor / 10)));
         timer += Time.deltaTime;
-        if (timer >= assignedBlessing.attackInterval)
+        if (timer >= modifiedInterval)
         {
             ExecuteBlessingAction();
+            Debug.Log("the factor and interval of attack is " +ASFactor+" "+ modifiedInterval);
             timer = 0f;
         }
     }

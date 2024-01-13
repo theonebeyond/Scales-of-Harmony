@@ -4,11 +4,10 @@ public class EnemySpawnManager : MonoBehaviour
 {
     public EnemyData[] enemyTypes;
     public float spawnInterval = 5f;
-    private float timer = 0f;
     private Camera mainCamera;
     public static EnemySpawnManager Instance { get; private set; }
 
-
+    /*
     void Awake()
     {
         if (Instance == null)
@@ -20,7 +19,7 @@ public class EnemySpawnManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-    }
+    }*/
     void Start()
     {
         mainCamera = Camera.main;

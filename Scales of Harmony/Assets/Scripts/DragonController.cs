@@ -1,13 +1,18 @@
-using UnityEditor.Experimental.GraphView;
+using System;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class DragonController : MonoBehaviour
 {
     public float moveSpeed = 5f;
     private Rigidbody2D rb;
     private Vector2 moveDirection;
+    public Collider2D mapboundary;
     public SpriteRenderer spriteRenderer;
+    public GameObject DragonSprite;
     public Animator animator; // Make sure this is assigned in the inspector
+    private bool isOutOfBounds = false;
 
     void Start()
     {
@@ -18,12 +23,39 @@ public class DragonController : MonoBehaviour
     void Update()
     {
         ProcessInputs();
- //       Animate();
+        Animate();
     }
 
     void FixedUpdate()
     {
-        Move();
+        if (!isOutOfBounds)
+        {
+            Move();
+        }
+    }
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Boundary"))
+        {
+            isOutOfBounds = true;
+            StopMovement();
+            rb.velocity = new Vector2(-moveDirection.x * 0.1f * moveSpeed, -moveDirection.y * 0.1f * moveSpeed);
+        }
+    }
+
+    void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.CompareTag("Boundary"))
+        {
+            isOutOfBounds = false;
+        }
+    }
+
+    void StopMovement()
+    {
+        rb.velocity = Vector2.zero; // This stops the dragon
+                                    // Add any additional logic if needed, such as playing an animation or sound
     }
 
     void ProcessInputs()
@@ -52,9 +84,9 @@ public class DragonController : MonoBehaviour
     void Animate()
     {
         // Check if the dragon is moving
-        bool isMoving = moveDirection.x != 0 || moveDirection.y != 0;
-        if (isMoving) { animator.enabled = false;}
-        else { animator.enabled = true; }
+        bool isIDLE = moveDirection.x == 0 && moveDirection.y == 0;
+        animator.SetBool("IsIDLE", isIDLE);
+
 
     }
 }
