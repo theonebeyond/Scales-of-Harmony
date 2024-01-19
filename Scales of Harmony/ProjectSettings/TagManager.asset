@@ -7,6 +7,16 @@ TagManager:
   - Undefined
   - Dragon
   - Enemy
+  - Attribute_Cursor
+  - Attribute_Before
+  - Attribute_After
+  - Attribute_Button
+  - Attribute_Applied
+  - Attribute_Incremental
+  - Boundary
+  - BOSSLocation
+  - Projectile
+  - BOSS
   layers:
   - Default
   - TransparentFX
@@ -14,9 +24,9 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
-  - 
+  - UI1
+  - UI2
+  - UI3
   - 
   - 
   - 

@@ -15,8 +15,8 @@ MonoBehaviour:
   blessingName: Flame Breath
   blessingSprite: {fileID: 21300000, guid: cb6b3d54e3cae6441970b911c4bda8c6, type: 3}
   description: Spitting Fire!!
-  blessingNo: 1
-  DragonNo: 0
+  blessingNo: 4
+  DragonNo: 1
   attackInterval: 1
   projectileData: {fileID: 0}
   effectValue: 1
