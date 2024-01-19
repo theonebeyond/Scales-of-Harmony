@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2872776d0f4d4ae40ae8575e036b3230, type: 3}
+  m_Name: Electra
+  m_EditorClassIdentifier: 
+  DialogueName: Electra
+  DialogueSpeaker: Electra
+  Avatar: {fileID: 21300000, guid: 9775ff8f4acf7c74ebe0e9674de74dfa, type: 3}
+  TrueTopFalseBottom: 1
+  Lines:
+  - "Thanks for the rescue! Let\u2019s shock our enemies into submission!"

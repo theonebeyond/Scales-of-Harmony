@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44b466f4f91da7e48b1fdb38d61374a9, type: 3}
   m_Name: Moss
   m_EditorClassIdentifier: 
-  dragonName: 
-  icon: {fileID: 21300000, guid: 902136872d52a4444b2c722df90f383d, type: 3}
-  dragonSprite: {fileID: 0}
+  dragonName: Moss
+  icon: {fileID: 21300000, guid: e59777eda600de649bf993e3e5a982f2, type: 3}
+  dragonSprite: {fileID: 21300000, guid: e59777eda600de649bf993e3e5a982f2, type: 3}
+  DragonDialogue: 
   blessings:
   - {fileID: 11400000, guid: 4df0f3dc51821e64e9512e0c1c3404b6, type: 2}
-  - {fileID: 11400000, guid: a2cb3e8fde33a1349893f24eb7877489, type: 2}
-  - {fileID: 11400000, guid: 71fe91a9d4e23d9479bb93f1141454d1, type: 2}
+  - {fileID: 11400000, guid: 4df0f3dc51821e64e9512e0c1c3404b6, type: 2}
+  - {fileID: 11400000, guid: 4df0f3dc51821e64e9512e0c1c3404b6, type: 2}

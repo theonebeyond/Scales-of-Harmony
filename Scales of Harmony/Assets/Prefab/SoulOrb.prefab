@@ -98,6 +98,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8487fcf9b3436f46b50c6631690b457, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  attractionRadius: 1
+  attractionStrength: 3
 --- !u!70 &6675862722781468551
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

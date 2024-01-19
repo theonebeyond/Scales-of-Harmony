@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4432ae2a3b690e44d91f2ecd347a7619, type: 3}
+  m_Name: MiniBoss
+  m_EditorClassIdentifier: 
+  bossName: MiniBoss
+  health: 150
+  attackDamage: 5
+  fireRate: 1
+  isProjectile: 1
+  movingSpeed: 0.5
+  IsFinal: 0
+  bossPrefab: {fileID: 1071483680757051536, guid: f9362fbcb42b62243840134adab25f21, type: 3}
+  projectile: {fileID: 11400000, guid: 965163c7ed1c3c3458c7cd883c91010e, type: 2}

@@ -14,6 +14,9 @@ TagManager:
   - Attribute_Applied
   - Attribute_Incremental
   - Boundary
+  - BOSSLocation
+  - Projectile
+  - BOSS
   layers:
   - Default
   - TransparentFX
