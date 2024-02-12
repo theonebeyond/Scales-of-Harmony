@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ProjectInfo>
+	<Project Name="Scales of Harmony - GameJam2024" GUID="{6C06515E-7626-47C0-94AC-0D5BE6437781}" Generator="2023.1.0.8367"/>
+	<CacheRoot>../../../../../../../WwiseProjects/Scales of Harmony - GameJam2024/.cache</CacheRoot>
+	<Platforms>
+		<Platform Name="Mac" GUID="{042A20E7-BF07-478F-995F-6FF9DEF01F9C}" BasePlatform="Mac" BasePlatformGUID="{9C6217D5-DD11-4795-87C1-6CE02853C540}" Path="../../../../../../../WwiseProjects/Scales of Harmony - GameJam2024/GeneratedSoundBanks/Mac"/>
+		<Platform Name="Windows" GUID="{ABDDD37A-7990-4DF5-A126-480651F192A6}" BasePlatform="Windows" BasePlatformGUID="{6E0CB257-C6C8-4C5C-8366-2740DFC441EB}" Path="../../../../../../../WwiseProjects/Scales of Harmony - GameJam2024/GeneratedSoundBanks/Windows"/>
+	</Platforms>
+	<Languages>
+		<Language Name="English(US)" Id="684519430" GUID="{807BA5F1-C854-4FBA-82BA-7B76818DEE2C}" Default="true" UseAsStandIn="true"/>
+	</Languages>
+	<FileHash>{590FD7EE-D7C8-40FD-FB6E-658855CF2D36}</FileHash>
+</ProjectInfo>

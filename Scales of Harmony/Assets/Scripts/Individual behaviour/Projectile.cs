@@ -9,6 +9,10 @@ public class Projectile : MonoBehaviour
     private float travelDistance;
     private Vector2 startPosition;
 
+    // Syndazy
+    public string EventName = "Test2";
+    public string StopName = "Stop";
+
     public void Initialize(Vector2 target, ProjectileData data)
     {
         playerStatManager = FindAnyObjectByType<PlayerStatManager>();
@@ -22,13 +26,17 @@ public class Projectile : MonoBehaviour
             // Adjusting the size based on playerStatManager.Range[0]
             float sizeMultiplier = 0.05f * playerStatManager.Range[0] + 1;
             transform.localScale *= sizeMultiplier; // Multiplying the current scale by the size multiplier
+
+            // Syndazy
+             AkSoundEngine.PostEvent(EventName, gameObject);
         }
 
     }
 
-    private void Start()
+    private void Awake()
     {
-
+        //Syndazy
+        AkSoundEngine.RegisterGameObj(gameObject);
     }
     void Update()
     {
@@ -44,9 +52,12 @@ public class Projectile : MonoBehaviour
             // Rotate the projectile to face the direction of movement
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
             transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle-90));
+
+           
         }
         else
         {
+
             Destroy(gameObject); // Destroy the projectile after reaching the travel distance
         }
     }
@@ -73,15 +84,27 @@ public class Projectile : MonoBehaviour
             if (enemyAI != null)
             {
                 enemyAI.TakeDamage(projectileData.damage);
+
+                //Syndazy
+                AkSoundEngine.PostEvent(StopName, gameObject);
+
             }
             if (BossAI != null)
             {
                 BossAI.TakeDamage(projectileData.damage);
+
+                //Syndazy
+                AkSoundEngine.PostEvent(StopName, gameObject);
             }
 
             Destroy(gameObject);
         } 
 
+    }
+    private void OnDestroy()
+    {
+        //Syndazy
+        //AkSoundEngine.UnregisterGameObj(gameObject);
     }
 }
         

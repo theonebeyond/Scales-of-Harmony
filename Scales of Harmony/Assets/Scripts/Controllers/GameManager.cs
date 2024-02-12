@@ -4,11 +4,16 @@ using UnityEngine.SceneManagement;
 using System;
 using static GameManager;
 using System.Collections.Generic;
+using System.Security.Cryptography.X509Certificates;
 public class GameManager : MonoBehaviour
 {
     
     public static GameManager Instance { get; private set; }
     private float SpawnTimer = 0f;
+
+    // Syndazy
+    public string StopName = "StopAll";
+
     public enum GameState
     {
         MainMenu,
@@ -55,6 +60,12 @@ public class GameManager : MonoBehaviour
         }
     }
     */
+
+    private void Awake()
+    {
+        //Syndazy
+        AkSoundEngine.RegisterGameObj(gameObject);
+    }
     void Start()
     {
         Time.timeScale = 1;
@@ -160,7 +171,7 @@ public class GameManager : MonoBehaviour
                 break;
             // [Game Over] Set Up:
             case GameState.GameOver:
-                // Handle game over logic
+                // Handle game over logics
                 uiManager.BossHealthbarSwitch(false);
                 Debug.Log("GameOver started");
                 uiManager.backgroundBase.SetActive(true);
@@ -215,8 +226,11 @@ public class GameManager : MonoBehaviour
 
     public void GameOver()
     {
+        //Syndazy
+        AkSoundEngine.PostEvent(StopName, gameObject);
+       //AkSoundEngine.UnregisterGameObj(gameObject);
+
         ChangeState(GameState.GameOver);
-        
     }
 
     public void ShowButton(Boolean OnOff)
